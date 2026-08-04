@@ -10,6 +10,11 @@ services:
     working_dir: /app
     ports:
       - "3000:3000"
+    environment:
+    # CONCEPT: 'Polling'. Instead of relying on OS file events, we force the file watcher to check for changes continuously.
+    # IMPACT: Hot-reloading is restored perfectly across the Windows/Linux Docker boundary.
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
     volumes:
       # IMPACT: This syncs your code edits in real-time. If you change a React component, the container updates instantly without restarting.
       - ./:/app
